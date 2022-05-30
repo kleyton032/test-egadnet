@@ -17,13 +17,14 @@ class SessionController {
 
         if (!confirmedPassword) return res.status(401).json({error:"Email/senha incorretos"});
 
-        const token = await sign({}, authConfig.jwt.secret, {
-            subject: user._id,
+        const user_id = user._id;
+        const token = sign({user_id}, 
+            authConfig.jwt.secret, {
             expiresIn: authConfig.jwt.expiresIn, 
         })
 
         return res.json({user_token: {
-            user,
+            user : user.email,
             token
         }})
 
